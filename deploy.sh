@@ -30,8 +30,10 @@ if [ -z "$SITE" ]; then
     exit 1
 fi
 
-# Always deploy to r2ware.dev
-API_DOMAIN="https://r2ware.dev"
+# Use provided API_DOMAIN or default to r2ware.dev
+if [ -z "$API_DOMAIN" ]; then
+    API_DOMAIN="https://r2ware.dev"
+fi
 
 info "Deploying site: $SITE"
 info "API Domain: $API_DOMAIN"

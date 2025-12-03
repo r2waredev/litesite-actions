@@ -9,6 +9,10 @@ inputs:
   site:
     description: 'Site identifier (slug)'
     required: true
+  api_domain:
+    description: 'API domain to deploy to (defaults to https://r2ware.dev)'
+    required: false
+    default: 'https://r2ware.dev'
 
 outputs:
   archive_name:
@@ -27,4 +31,5 @@ runs:
       env:
         API_KEY: ${{ inputs.api_key }}
         SITE: ${{ inputs.site }}
+        API_DOMAIN: ${{ inputs.api_domain }}
       run: ${{ github.action_path }}/deploy.sh

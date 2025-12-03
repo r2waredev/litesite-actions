@@ -18,6 +18,7 @@ A GitHub composite action for deploying static sites to the Litesite platform.
 |-------|----------|---------|-------------|
 | `api_key` | Yes | - | API key for authentication with Litesite |
 | `site` | Yes | - | Site identifier (slug) |
+| `api_domain` | No | `https://r2ware.dev` | API domain to deploy to |
 
 ## Outputs
 
@@ -28,7 +29,16 @@ A GitHub composite action for deploying static sites to the Litesite platform.
 
 ## Deployment Target
 
-All deployments are sent to `https://r2ware.dev`.
+By default, all deployments are sent to `https://r2ware.dev`. You can override this by setting the `api_domain` input parameter:
+
+```yaml
+- name: Deploy to Litesite
+  uses: reidransom/litesite-actions@v1
+  with:
+    api_key: ${{ secrets.LITESITE_API_KEY }}
+    site: 'your-site-slug'
+    api_domain: 'https://example.com'  # Optional override
+```
 
 ## Example Workflow
 
