@@ -10,7 +10,6 @@ A GitHub composite action for deploying static sites to the Litesite platform.
   with:
     api_key: ${{ secrets.LITESITE_API_KEY }}
     site: 'your-site-slug'
-    branch: ${{ github.ref_name }}
 ```
 
 ## Inputs
@@ -19,7 +18,6 @@ A GitHub composite action for deploying static sites to the Litesite platform.
 |-------|----------|---------|-------------|
 | `api_key` | Yes | - | API key for authentication with Litesite |
 | `site` | Yes | - | Site identifier (slug) |
-| `branch` | Yes | `${{ github.ref_name }}` | Branch name for environment selection |
 
 ## Outputs
 
@@ -28,13 +26,9 @@ A GitHub composite action for deploying static sites to the Litesite platform.
 | `archive_name` | Name of the created archive |
 | `s3_key` | S3 key where the archive was uploaded |
 
-## Environment Selection
+## Deployment Target
 
-The deployment script automatically selects the appropriate API endpoint based on the branch:
-
-- `main` or `master` → `https://r2ware.dev` (production)
-- `release` → `http://rpstg.lan` (staging)
-- Other branches → `http://host.docker.internal:5050` (local development)
+All deployments are sent to `https://r2ware.dev`.
 
 ## Example Workflow
 
@@ -43,7 +37,7 @@ name: Deploy Site
 
 on:
   push:
-    branches: [main, release]
+    branches: [main]
 
 jobs:
   deploy:
@@ -59,7 +53,6 @@ jobs:
         with:
           api_key: ${{ secrets.LITESITE_API_KEY }}
           site: 'mysite'
-          branch: ${{ github.ref_name }}
 ```
 
 ## What It Does
@@ -73,5 +66,5 @@ jobs:
 
 - Git repository must be initialized and have at least one commit
 - Valid API key with permissions to deploy to the specified site
-- Network access to the appropriate Litesite API endpoint
+- Network access to https://r2ware.dev
 - The runner must have `bash`, `curl`, `git`, `jq`, and `ca-certificates` installed (standard on `ubuntu-latest`)
