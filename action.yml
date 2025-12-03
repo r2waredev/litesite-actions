@@ -9,10 +9,6 @@ inputs:
   site:
     description: 'Site identifier (slug)'
     required: true
-  branch:
-    description: 'Branch name for environment selection'
-    required: true
-    default: ${{ github.ref_name }}
 
 outputs:
   archive_name:
@@ -31,5 +27,4 @@ runs:
       env:
         API_KEY: ${{ inputs.api_key }}
         SITE: ${{ inputs.site }}
-        BRANCH: ${{ inputs.branch }}
       run: ${{ github.action_path }}/deploy.sh

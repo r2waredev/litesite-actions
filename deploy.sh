@@ -30,28 +30,15 @@ if [ -z "$SITE" ]; then
     exit 1
 fi
 
-if [ -z "$BRANCH" ]; then
-    error "BRANCH environment variable is required"
-    exit 1
-fi
-
-# Determine API domain based on branch
-if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
-    API_DOMAIN="https://r2ware.dev"
-elif [ "$BRANCH" = "release" ]; then
-    API_DOMAIN="http://rpstg.lan"
-else
-    # Use host.docker.internal for local development (act)
-    API_DOMAIN="http://host.docker.internal:5050"
-fi
+# Always deploy to r2ware.dev
+API_DOMAIN="https://r2ware.dev"
 
 info "Deploying site: $SITE"
-info "Branch: $BRANCH"
 info "API Domain: $API_DOMAIN"
 
 # Create archive
 info "Creating archive..."
-ARCHIVE_NAME="${BRANCH//\\//-}-$(date +%Y%m%d-%H%M%S).tar.gz"
+ARCHIVE_NAME="deploy-$(date +%Y%m%d-%H%M%S).tar.gz"
 git archive --format=tar.gz -o "$ARCHIVE_NAME" HEAD
 success "Created archive: $ARCHIVE_NAME ($(du -h "$ARCHIVE_NAME" | cut -f1))"
 
