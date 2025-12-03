@@ -1,0 +1,35 @@
+name: 'Deploy to Litesite'
+description: 'Deploy a static site to the Litesite platform'
+author: 'Reid Ransom'
+
+inputs:
+  api_key:
+    description: 'API key for authentication with Litesite'
+    required: true
+  site:
+    description: 'Site identifier (slug)'
+    required: true
+  branch:
+    description: 'Branch name for environment selection'
+    required: true
+    default: ${{ github.ref_name }}
+
+outputs:
+  archive_name:
+    description: 'Name of the created archive'
+    value: ${{ steps.deploy.outputs.archive_name }}
+  s3_key:
+    description: 'S3 key where the archive was uploaded'
+    value: ${{ steps.deploy.outputs.s3_key }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Deploy to Litesite
+      id: deploy
+      shell: bash
+      env:
+        API_KEY: ${{ inputs.api_key }}
+        SITE: ${{ inputs.site }}
+        BRANCH: ${{ inputs.branch }}
+      run: ${{ github.action_path }}/deploy.sh
