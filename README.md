@@ -55,8 +55,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Full history for git archive
 
       - name: Deploy to Litesite
         uses: reidransom/litesite-actions@v1
